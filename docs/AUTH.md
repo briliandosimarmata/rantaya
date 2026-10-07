@@ -23,7 +23,7 @@ GET start memvalidasi role customer/organizer, membuat state random, menyimpan S
 
 Callback memeriksa state query/cookie, mengonsumsi state satu kali, menukar authorization code melalui token endpoint HTTPS dan mendapatkan userinfo melalui bearer access token. Memerlukan verified email dan stable Google sub. Tidak mempercayai email/token yang dikirim client. Access token Google tidak disimpan; session aplikasi baru diterbitkan.
 
-Cookie ruang_session HttpOnly, SameSiteLax,14 hari, Secure saat APP_ENV=production. DB hanya hash session. Logout menghapus row token dan cookie. Header Authorization Bearer diterima API untuk klien terkontrol, tetapi endpoint native login belum dibuat. Kegagalan OAuth kembali ke halaman login; state invalid tidak menghasilkan session.
+Cookie ruang_session HttpOnly, SameSiteLax,14 hari, Secure saat APP_ENV=production atau COOKIE_SECURE=true. Demo HTTPS memakai APP_ENV=demo dan COOKIE_SECURE=true; production tetap menolak demo/seed. DB hanya hash session. Logout menghapus row token dan cookie. Header Authorization Bearer diterima API untuk klien terkontrol, tetapi endpoint native login belum dibuat. Kegagalan OAuth kembali ke halaman login; state invalid tidak menghasilkan session.
 
 ## Demo lokal
 

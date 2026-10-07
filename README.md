@@ -83,3 +83,5 @@ Integration test membutuhkan **database uji terpisah**; [TESTING](docs/TESTING.m
 | `docs/RECOVERY_AUDIT.md`    | Checkpoint tersimpan, perbaikan recovery dan batas verifikasi |
 
 Untuk melanjutkan di Codex CLI, buka folder ini dan minta agent membaca `AGENTS.md`, `README.md`, serta dokumen fitur yang akan diubah. Tidak ada kredensial Google, database pribadi, `node_modules`, ataupun binary di ZIP.
+
+Demo VPS dengan Docker, NGINX, dan HTTPS Certbot dijelaskan pada [panduan deployment demo](docs/DEPLOYMENT_DEMO.md).

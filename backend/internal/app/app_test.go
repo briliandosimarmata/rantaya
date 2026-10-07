@@ -9,6 +9,35 @@ import (
 	"testing"
 )
 
+func TestDemoSecureConfiguration(t *testing.T) {
+	for _, tc := range []struct {
+		name, environment, cookieSecure, demo, seed string
+		secure, production                          bool
+	}{
+		{"local demo", "development", "false", "true", "true", false, false},
+		{"HTTPS demo", "demo", "true", "true", "true", true, false},
+		{"production cannot disable secure cookie", "production", "false", "false", "false", true, true},
+		{"production rejects demo login", "production", "true", "true", "false", true, true},
+		{"production rejects demo seed", "production", "false", "false", "true", true, true},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			t.Setenv("APP_ENV", tc.environment)
+			t.Setenv("COOKIE_SECURE", tc.cookieSecure)
+			t.Setenv("DEMO_LOGIN", tc.demo)
+			t.Setenv("SEED_DEMO", tc.seed)
+			c := Configuration()
+			if c.Secure != tc.secure || c.Production != tc.production {
+				t.Fatal("cookie security must be independent of demo mode; production always requires secure cookies")
+			}
+			if c.Production && (c.Demo || c.Seed) {
+				if _, err := New(context.Background(), c); err == nil || !strings.Contains(err.Error(), "must be false in production") {
+					t.Fatal("production must reject demo login and seed before database startup")
+				}
+			}
+		})
+	}
+}
+
 func TestConfiguredOrigins(t *testing.T) {
 	t.Setenv("APP_URL", "http://192.0.2.10:5173")
 	t.Setenv("APP_ALLOWED_ORIGINS", " http://localhost:5173, ,http://127.0.0.1:5173 ")

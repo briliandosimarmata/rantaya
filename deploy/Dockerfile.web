@@ -1,0 +1,23 @@
+FROM node:24-bookworm-slim AS build
+WORKDIR /src/web
+COPY web/package.json web/package-lock.json web/.npmrc ./
+RUN npm ci --ignore-scripts
+COPY web/ ./
+ARG APP_URL
+ENV APP_URL=${APP_URL}
+RUN npm run build
+
+FROM node:24-bookworm-slim AS dependencies
+WORKDIR /app
+COPY web/package.json web/package-lock.json web/.npmrc ./
+RUN npm ci --omit=dev --ignore-scripts && npm cache clean --force
+
+FROM node:24-bookworm-slim
+WORKDIR /app
+ENV NODE_ENV=production HOST=0.0.0.0 PORT=3000 BODY_SIZE_LIMIT=10M
+COPY --chown=node:node --from=dependencies /app/node_modules ./node_modules
+COPY --chown=node:node --from=dependencies /app/package.json ./package.json
+COPY --chown=node:node --from=build /src/web/build ./build
+USER node
+EXPOSE 3000
+CMD ["node", "build"]

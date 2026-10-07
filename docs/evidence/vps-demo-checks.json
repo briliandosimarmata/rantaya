@@ -1,0 +1,56 @@
+{
+  "verified_at": "2026-10-07T19:49:14Z",
+  "url": "https://rantaya.briliando.dev",
+  "mode": "shared synthetic demo; not a production security review",
+  "local_checks": {
+    "svelte_errors": 0,
+    "svelte_warnings": 0,
+    "go_vet": "passed",
+    "go_unit": "passed",
+    "production_demo_guard": "passed"
+  },
+  "vps": {
+    "linux_api_image": "built",
+    "linux_web_image": "built",
+    "containers_healthy": ["db", "api", "web"],
+    "migrations": [1, 2, 3],
+    "web_binding": "127.0.0.1:3100",
+    "api_and_database_host_ports": "none",
+    "persistent_volumes": ["db_data", "uploads"],
+    "private_env_permission": "0600 root",
+    "original_nginx_files_unchanged": 18,
+    "existing_around_face_https": 200,
+    "existing_portfolio_https": 200
+  },
+  "https": {
+    "health": 200,
+    "http_redirect": 301,
+    "certificate_expires_at": "2027-01-05T18:33:45Z",
+    "certbot_renewal_dry_run": "passed",
+    "renewal_timer": "active",
+    "scoped_nginx_deploy_hook": "passed",
+    "robots_header": "noindex, nofollow"
+  },
+  "login": {
+    "customer_ui": "passed",
+    "organizer_ui": "passed",
+    "session_cookie": {"secure": true, "httpOnly": true, "sameSite": "Lax"},
+    "cross_site_mutation": 403,
+    "anonymous_orders": 401,
+    "browser_errors": 0
+  },
+  "browser": {
+    "checkout_regressions_passed": 9,
+    "checkout_viewports": [360, 390, 1440],
+    "full_payment_flow_mobile390": "passed",
+    "coverage": [
+      "checkout without crypto.randomUUID",
+      "idempotent retry and busy error recovery",
+      "private synthetic proof buyer and organizer only",
+      "correction and proof resubmission",
+      "approval and two tickets",
+      "manual check-in and duplicate rejection"
+    ]
+  },
+  "not_verified": ["live Google OAuth", "physical camera", "Lighthouse", "production readiness"]
+}

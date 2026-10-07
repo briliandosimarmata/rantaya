@@ -29,7 +29,7 @@ var schema embed.FS
 type Config struct {
 	Addr, DatabaseURL, AppURL, UploadDir, GoogleID, GoogleSecret, GoogleRedirect string
 	AllowedOrigins                                                               []string
-	Demo, Seed, Secure                                                           bool
+	Demo, Seed, Secure, Production                                               bool
 	HoldMinutes                                                                  int
 }
 
@@ -44,7 +44,8 @@ func Configuration() Config {
 	if n < 1 || n > 120 {
 		n = 30
 	}
-	return Config{Addr: Env("API_ADDR", "127.0.0.1:8080"), DatabaseURL: Env("DATABASE_URL", "postgres://ruang:ruang_local@localhost:5432/ruang?sslmode=disable"), AppURL: strings.TrimRight(Env("APP_URL", "http://localhost:5173"), "/"), AllowedOrigins: configuredOrigins(os.Getenv("APP_ALLOWED_ORIGINS")), UploadDir: Env("UPLOAD_DIR", "./var/uploads"), GoogleID: os.Getenv("GOOGLE_CLIENT_ID"), GoogleSecret: os.Getenv("GOOGLE_CLIENT_SECRET"), GoogleRedirect: Env("GOOGLE_REDIRECT_URI", "http://localhost:5173/api/auth/google/callback"), Demo: Env("DEMO_LOGIN", "false") == "true", Seed: Env("SEED_DEMO", "false") == "true", Secure: Env("APP_ENV", "development") == "production", HoldMinutes: n}
+	production := Env("APP_ENV", "development") == "production"
+	return Config{Addr: Env("API_ADDR", "127.0.0.1:8080"), DatabaseURL: Env("DATABASE_URL", "postgres://ruang:ruang_local@localhost:5432/ruang?sslmode=disable"), AppURL: strings.TrimRight(Env("APP_URL", "http://localhost:5173"), "/"), AllowedOrigins: configuredOrigins(os.Getenv("APP_ALLOWED_ORIGINS")), UploadDir: Env("UPLOAD_DIR", "./var/uploads"), GoogleID: os.Getenv("GOOGLE_CLIENT_ID"), GoogleSecret: os.Getenv("GOOGLE_CLIENT_SECRET"), GoogleRedirect: Env("GOOGLE_REDIRECT_URI", "http://localhost:5173/api/auth/google/callback"), Demo: Env("DEMO_LOGIN", "false") == "true", Seed: Env("SEED_DEMO", "false") == "true", Secure: production || Env("COOKIE_SECURE", "false") == "true", Production: production, HoldMinutes: n}
 }
 
 func configuredOrigins(value string) []string {
@@ -251,7 +252,7 @@ func notify(ctx context.Context, tx pgx.Tx, uid, kind, title, body, path string)
 	return err
 }
 func New(ctx context.Context, c Config) (*App, error) {
-	if c.Secure && (c.Demo || c.Seed) {
+	if c.Production && (c.Demo || c.Seed) {
 		return nil, fmt.Errorf("DEMO_LOGIN and SEED_DEMO must be false in production")
 	}
 	if !validOrigin(c.AppURL) {
