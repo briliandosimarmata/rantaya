@@ -1,0 +1,32 @@
+{
+  "verified_at": "2026-10-07T21:26:12Z",
+  "url": "https://rantaya.briliando.dev/event/di-balik-layar/tiket",
+  "cause": "Original seed session starts one hour after seeding; purchases close when the session starts, regardless of remaining capacity.",
+  "original_session_unchanged": true,
+  "private_database_backup_created": true,
+  "new_demo_session": {
+    "starts_at": "2026-11-07T12:00:00Z",
+    "ends_at": "2026-11-07T13:30:00Z",
+    "capacity": 60,
+    "price": 45000
+  },
+  "local_isolated_database": {
+    "native_postgresql_go_race_integration": "passed",
+    "future_jakarta_schedule": "passed",
+    "repeat_run_no_duplicate": "passed",
+    "existing_sessions_orders_tickets_unchanged": "passed"
+  },
+  "public_https_browser": {
+    "checkout_to_payment": "passed",
+    "duplicate_order_idempotency": "passed",
+    "viewports": [360, 390, 1440],
+    "tests_passed": 3,
+    "console_errors": 0
+  },
+  "services": {
+    "rantaya_containers": "healthy; not restarted",
+    "rantaya_health": 200,
+    "existing_around_face": 200,
+    "existing_portfolio": 200
+  }
+}

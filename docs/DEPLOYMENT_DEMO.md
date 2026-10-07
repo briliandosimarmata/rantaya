@@ -28,6 +28,16 @@ docker compose --env-file /opt/rantaya-demo/.env -f deploy/compose.demo.yaml up 
 
 APP_URL disisipkan ke frontend saat build. Perubahan domain memerlukan rebuild web dan penyesuaian vhost serta sertifikat. Google OAuth tetap memerlukan kredensial dan konfigurasi callback sendiri; demo memakai login akun contoh.
 
+Seed awal menjadwalkan sesi pertama “Di Balik Layar” satu jam setelah database dibuat agar check-in dapat diuji. Pembelian sesi itu ditutup setelah mulai, walaupun kuota tersisa; restart tidak mengubah tanggal seed yang tersimpan. Untuk demo VPS, tambahkan sesi mendatang setelah startup:
+
+```sh
+sh deploy/refresh-demo-session.sh
+```
+
+Script memeriksa API berjalan dalam mode demo dengan login/seed aktif. Script hanya menambahkan sesi baru pada event fiktif asli jika tidak ada sesi lebih dari 24 jam ke depan: jadwal 30 hari mendatang, pukul 19.00 WIB, kapasitas 60, harga dari sesi contoh. Pemanggilan ulang tidak menggandakan sesi. Jalankan kembali saat jadwal demo mendatang mendekati habis. Jadwal lama, pesanan, bukti, dan tiket dipertahankan; script tidak membuka event yang belum diterbitkan atau menambah kuota sesi yang terjual habis. Check-in tetap mengikuti jendela waktu sesi, sehingga sesi mendatang digunakan untuk checkout/pembayaran, bukan check-in hari ini.
+
+Verifikasi penambahan sesi dan checkout publik: [evidence/vps-demo-session-checks.json](evidence/vps-demo-session-checks.json).
+
 NGINX Rantaya ada di `/etc/nginx/sites-available/rantaya-demo`, dengan symlink khusus di `sites-enabled`. Sebelum perubahan, backup/checksum konfigurasi lama disimpan di `/opt/rantaya-demo/backups`. Setiap perubahan vhost harus lulus `nginx -t` sebelum `systemctl reload nginx`. Tidak perlu restart NGINX atau Docker host.
 
 Untuk menghentikan demo, jalankan `docker compose --env-file /opt/rantaya-demo/.env -f deploy/compose.demo.yaml stop` dari direktori source. Data tetap tersimpan. Untuk menghapus vhost demo, lepaskan hanya symlink `/etc/nginx/sites-enabled/rantaya-demo`, lalu uji dan reload NGINX; konfigurasi situs lain tidak perlu diubah. Backup awal berisi konfigurasi seluruh host, jadi jangan menimpa seluruh `/etc/nginx` ketika hanya memperbaiki Rantaya.
