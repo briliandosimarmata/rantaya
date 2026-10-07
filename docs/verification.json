@@ -1,0 +1,82 @@
+{
+  "verified_at": "2026-10-07T16:15:09.112557+00:00",
+  "prototype_commit": "a9c43a25a116e695df3a2f73ac978521ed092acd",
+  "local": {
+    "svelte_errors": 0,
+    "svelte_warnings": 0,
+    "frontend": "adapter-node build passed",
+    "go_build": "passed",
+    "go_vet": "passed",
+    "go_unit": "passed",
+    "go_race_sql": "passed",
+    "migrations": [
+      1,
+      2,
+      3
+    ]
+  },
+  "database_verification": {
+    "engine": "PGlite via PostgreSQL wire protocol",
+    "connections": 1,
+    "native_multiple_connections": "not verified; rerun isolated TEST_DATABASE_URL on laptop/CI"
+  },
+  "browser": {
+    "viewports": [
+      [
+        360,
+        800
+      ],
+      [
+        390,
+        844
+      ],
+      [
+        1440,
+        1000
+      ]
+    ],
+    "unique_flow_combinations_passed": 32,
+    "mobile_measurement_skipped_on_desktop": 1,
+    "route_states_passed": 204,
+    "final_secondary_cards_and_variants_passed": 30,
+    "console_errors": 0,
+    "overflow_failures": 0,
+    "burst_execution": "API restarted between test files with the same disposable database; 600/IP/min limiter unchanged",
+    "final_continuity_rerun_passed": 6
+  },
+  "commerce": [
+    "idempotency and quantity",
+    "capacity and ownership",
+    "immutable payment snapshot",
+    "proof access buyer/owner only",
+    "correction and reproof",
+    "received funds approval",
+    "one QR per admission",
+    "repeat approval idempotent",
+    "eight gate requests: one accepted, seven rejected",
+    "cancellation and expiry",
+    "payment deadline and event reminder deduplication",
+    "check-in verified review only"
+  ],
+  "continuity": [
+    "local return path validation",
+    "login and optional onboarding preserve session query",
+    "review create/edit context",
+    "notification preference persistence",
+    "first product variant selected"
+  ],
+  "preview": {
+    "mode": "synthetic read-only UI",
+    "ssr_checks_passed": 30,
+    "payment_approval_http": 403,
+    "vote_bookmark": "device-local viewing preferences only",
+    "url": "https://ruang-ui-preview.sandramoored074.chatgpt.site"
+  },
+  "unverified": [
+    "live Google OAuth: user credentials required",
+    "native PostgreSQL multiconnection locks",
+    "physical camera and phone keyboard",
+    "Lighthouse score",
+    "production Go hosting"
+  ]
+}

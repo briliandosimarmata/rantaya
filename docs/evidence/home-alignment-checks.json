@@ -1,0 +1,12 @@
+{
+  "verified_at": "2026-10-07T16:08:36.540660+00:00",
+  "baseline": "a9c43a25a116e695df3a2f73ac978521ed092acd",
+  "viewports": [
+    360,
+    390
+  ],
+  "geometry_tolerance_px": 0.1,
+  "fixture_changed": false,
+  "result": "passed",
+  "covered": "header, bottom navigation, heading, tabs, filters, composer, post geometry/fonts/image order, vote states/rollback, filters, search/back, city"
+}

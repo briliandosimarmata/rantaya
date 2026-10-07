@@ -1,0 +1,51 @@
+import { test, expect } from '@playwright/test';
+
+test('login and skippable onboarding return to the selected checkout session', async ({page}) => {
+  const demo = await page.request.post('/api/auth/demo',{data:{role:'customer'}});
+  expect(demo.status()).toBe(200);
+  const me = (await (await page.request.get('/api/auth/me')).json()).user;
+  expect((await page.request.patch('/api/profile',{data:{...Object.fromEntries(['name','city','bio','avatar_url','interests','preferences'].map(k => [k,me[k]])),onboarding_done:false}})).status()).toBe(200);
+  await page.request.post('/api/auth/logout',{data:{}});
+  const destination = '/event/festival-panggung-kecil/tiket?session=s-e3b';
+  await page.goto(destination);
+  await expect(page).toHaveURL(/\/masuk\/customer\?next=/);
+  expect(new URL(page.url()).searchParams.get('next')).toBe(destination);
+  await page.getByRole('button',{name:'Coba akun demo penonton'}).click();
+  await expect(page).toHaveURL(/\/onboarding\?next=/);
+  expect(new URL(page.url()).searchParams.get('next')).toBe(destination);
+  await page.getByRole('button',{name:'Lewati, lengkapi nanti'}).click();
+  await expect(page).toHaveURL(new RegExp('/event/festival-panggung-kecil/tiket\\?session=s-e3b$'));
+  await expect(page.locator('input[name=session][value="s-e3b"]')).toBeChecked();
+});
+
+test('review context and notification preferences persist through the real API', async ({page}) => {
+  await page.request.post('/api/auth/demo',{data:{role:'customer'}});
+  await page.goto('/event/rumah-yang-kita-bawa/ulasan');
+  await expect(page.locator('h1')).toHaveText('Bagikan pengalamanmu');
+  await expect(page.locator('.review-context')).toContainText('Rumah yang Kita Bawa');
+  const body = 'Ulasan TEST: percakapan setelah pertunjukan terasa dekat dan menarik.';
+  await page.locator('#review-body').fill(body);
+  await page.getByRole('checkbox',{name:'Saya hadir di pertunjukan ini.'}).check();
+  await page.getByRole('button',{name:'Kirim ulasan'}).click();
+  await expect(page).toHaveURL(/tab=ulasan/);
+  const mine=page.locator('.review-card').filter({hasText:body});
+  await expect(mine).toBeVisible();
+  await expect(mine.locator('.pill.lime')).toHaveCount(0);
+  await mine.getByRole('link',{name:'Edit',exact:true}).click();
+  await expect(page.locator('#review-body')).toHaveValue(body);
+  await expect(page.locator('h1')).toHaveText('Edit ulasan');
+  await page.goto('/profil?tab=settings');
+  const events=page.getByRole('switch',{name:'Event baru',exact:true});
+  await expect(events).toHaveAttribute('aria-checked','true');
+  await events.click();
+  await page.getByRole('button',{name:'Simpan pengaturan'}).click();
+  await expect(page.getByRole('status')).toContainText('Profil tersimpan.');
+  await page.reload();
+  await expect(events).toHaveAttribute('aria-checked','false');
+  await page.goto('/merch/m2');
+  await expect(page.locator('h1')).toHaveText('Tote Cerita Pulang');
+  await expect(page.locator('#variant option')).toHaveText(['Satu ukuran']);
+  await expect(page.locator('#variant')).toHaveValue('Satu ukuran');
+  await page.goto('/ruang/teater-ruang?tab=tentang');
+  await expect(page.getByText('Aktif sejak 2021 · Teater',{exact:true})).toBeVisible();
+});

@@ -1,0 +1,99 @@
+{
+  "date": "2026-10-07",
+  "go": {
+    "vet": "passed",
+    "unit": "passed",
+    "race_integration": "passed PGlite"
+  },
+  "browser": [
+    {
+      "project": "desktop",
+      "test": "customer composer has inline mentions and body-first focus",
+      "status": "passed"
+    },
+    {
+      "project": "desktop",
+      "test": "manual payment resumes, organizer approves and QR checks in once",
+      "status": "passed"
+    },
+    {
+      "project": "desktop",
+      "test": "organizer saves payment method, event, merch and profile through dashboard",
+      "status": "passed"
+    },
+    {
+      "project": "desktop",
+      "test": "organizer tools use separate account",
+      "status": "passed"
+    },
+    {
+      "project": "desktop",
+      "test": "public pages render semantic content within viewport",
+      "status": "passed"
+    },
+    {
+      "project": "mobile360",
+      "test": "customer composer has inline mentions and body-first focus",
+      "status": "passed"
+    },
+    {
+      "project": "mobile360",
+      "test": "manual payment resumes, organizer approves and QR checks in once",
+      "status": "passed"
+    },
+    {
+      "project": "mobile360",
+      "test": "organizer saves payment method, event, merch and profile through dashboard",
+      "status": "passed"
+    },
+    {
+      "project": "mobile360",
+      "test": "organizer tools use separate account",
+      "status": "passed"
+    },
+    {
+      "project": "mobile360",
+      "test": "public pages render semantic content within viewport",
+      "status": "passed"
+    },
+    {
+      "project": "mobile390",
+      "test": "customer composer has inline mentions and body-first focus",
+      "status": "passed"
+    },
+    {
+      "project": "mobile390",
+      "test": "manual payment resumes, organizer approves and QR checks in once",
+      "status": "passed"
+    },
+    {
+      "project": "mobile390",
+      "test": "organizer saves payment method, event, merch and profile through dashboard",
+      "status": "passed"
+    },
+    {
+      "project": "mobile390",
+      "test": "organizer tools use separate account",
+      "status": "passed"
+    },
+    {
+      "project": "mobile390",
+      "test": "public pages render semantic content within viewport",
+      "status": "passed"
+    }
+  ],
+  "initial_burst_failures": {
+    "desktop": 2,
+    "cause": "API 600/min loopback rate limit",
+    "resolved": "separate desktop run passed 5/5; limiter retained"
+  },
+  "additional_checks": {
+    "browser": "passed",
+    "schema_versions": [1, 2],
+    "restart": "passed",
+    "robots": "passed",
+    "csrf": "cross-origin multipart 403",
+    "database": "PGlite; one connection"
+  },
+  "native_postgresql": "not run; only UID 0 mapped"
+}

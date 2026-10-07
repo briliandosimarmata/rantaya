@@ -1,0 +1,1 @@
+CREATE TABLE IF NOT EXISTS event_reminders (account_id text NOT NULL REFERENCES accounts(id),session_id text NOT NULL REFERENCES event_sessions(id),created_at timestamptz NOT NULL DEFAULT now(),PRIMARY KEY(account_id,session_id));

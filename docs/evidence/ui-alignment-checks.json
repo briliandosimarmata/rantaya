@@ -1,0 +1,57 @@
+{
+  "date": "2026-10-07",
+  "brand": "Rantaya",
+  "svelte_check": {
+    "app": "0 errors, 0 warnings",
+    "site": "0 errors, 0 warnings"
+  },
+  "go": {
+    "vet": "passed",
+    "unit": "passed",
+    "race_sql_integration": "passed"
+  },
+  "build": {
+    "app_adapter_node": "passed",
+    "site_worker": "passed"
+  },
+  "browser": {
+    "full_suite": 18,
+    "full_suite_result": "passed",
+    "final_avatar_layout_checks": 3,
+    "final_avatar_layout_result": "passed",
+    "viewports": [
+      360,
+      390,
+      1440
+    ],
+    "tablet_width_checked": 900,
+    "screenshots_inspected": [
+      "mobile composer",
+      "mobile agenda",
+      "mobile event",
+      "mobile organizer",
+      "desktop event",
+      "mobile calendar"
+    ]
+  },
+  "payment_checks": [
+    "viewer resume",
+    "private proof viewer/organizer 200 no-store",
+    "anonymous proof 401",
+    "correction and reproof",
+    "organizer approval",
+    "ticket issue",
+    "QR reuse rejected"
+  ],
+  "schema_versions": [
+    1,
+    2
+  ],
+  "source_site_parity": "Product components identical; only documented read-only preview adapters/notices differ",
+  "limitations": [
+    "PGlite uses one connection; native PostgreSQL concurrency remains to test",
+    "Keyboard height simulated through visualViewport; physical mobile keyboard not tested",
+    "Physical camera, real Google OAuth and Lighthouse not tested",
+    "No pixel-identical screenshot baseline claim"
+  ]
+}

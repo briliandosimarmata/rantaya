@@ -1,0 +1,45 @@
+node_modules/
+.svelte-kit/
+web/build/
+backend/bin/
+var/
+.env
+.env.*
+!.env.example
+!web/.env.example
+playwright-report/
+test-results/
+*.log
+.DS_Store
+web/test-results/
+web/playwright-report/
+cookies.txt
+*.backup
+
+# Local credentials and account/tool settings
+*.pem
+*.key
+*.p12
+*.pfx
+credentials*.json
+*-credentials.json
+service-account*.json
+/.aws/
+/.ssh/
+/.codex/
+/.agents/
+/.npmrc
+
+# Database copies and browser network captures
+*.dump
+*.sql.gz
+*.sqlite
+*.sqlite3
+*.db
+*.har
+/backups/
+
+# Verification from this workstation (contains local network details)
+docs/evidence/local-setup-checks.json
+docs/evidence/localhost-login-checks.json
+docs/evidence/lan-checkout-checks.json
